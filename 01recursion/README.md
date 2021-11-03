@@ -1,14 +1,3 @@
-- [Recursion](#recursion)
-  - [Parts Of A Recursive Algorithm](#parts-of-a-recursive-algorithm)
-  - [Recursion vs. Iteration](#recursion-vs-iteration)
-  - [The Two Phases of Recursion](#the-two-phases-of-recursion)
-  - [Recursion is like Inception](#recursion-is-like-inception)
-  - [Recursion in Code](#recursion-in-code)
-    - [Iteration](#iteration)
-    - [Tail Recursion](#tail-recursion)
-    - [Head Recursion](#head-recursion)
-  - [A More Complex Recursion Example](#a-more-complex-recursion-example)
-
 # Recursion
 
 ```sh
@@ -23,7 +12,7 @@ fact(n - 1) = (n - 1) * fact(n - 2)
 
 `Recursion` is a problem-solving technique that involves breaking a problem into smaller instances of the same problem (also called `subproblems`) until we get a small enough **subproblem having a trivial solution**. We can say that recursion is “defining a problem in terms of itself” as it involves a function calling itself with a base case to terminate the infinite loop.
 
-## Parts Of A Recursive Algorithm
+## Parts Of A Recursive Algorithm:
 
 1. `Base Case`:It is that step where we have to stop recursion and whose value we know beforehand.Therefore while writing any recursive algorithm the first step is to figure out its base case.For example:While finding the factorial of a number, the base case is `fact(1)=1` since(`1! = 1`).
 
@@ -35,12 +24,14 @@ Let’s recap what we already know first. What is recursion?
 
 > Simply, recursion is a loop.
 
+
 Recursion is almost always compared to iteration, which is also a loop. If recursion and iteration are both loops, how are they different?
 
 Let’s look at two of the most prominent differences between recursion and iteration:
 
 - `Recursion takes additional stack space` — We know that recursion takes extra memory stack space for each recursive calls, thus potentially having larger space complexity vs. iteration.
 - `Recursion enables cleaner, more readable code` — Despite requiring more space, using recursion can allow your code to be a lot more readable vs. iteration.
+
 
 ## The Two Phases of Recursion
 
@@ -68,6 +59,7 @@ The second phase of coming back from the base case to the original recursive cal
 The reason recursion is difficult to fully grasp at first, is that the loop of recursion has two phases, and this makes it difficult to see the full combining effect of each recursive call’s results into the final result.
 
 For iteration, this is simple because the loop goes just one way → _you simply do the same thing in every iteration, period_.
+
 
 <div align="center">
 <img src="img/recursion.png" alt="rec" width="700px">
@@ -110,11 +102,13 @@ The examples I will be using are in JavaScript, but the language shouldn’t rea
 
 First, let’s consider the following iteration function:
 
+
+
 ```python
 def itr(n):
- while n > 0:
-  print(n,end=" ")
-  n-=1
+	while n > 0:
+		print(n,end=" ")
+		n-=1
 
 itr(5)
 ```
@@ -129,6 +123,7 @@ itr(5)
 
 This same result can be implemented using recursion as follows:
 
+
 ```python
 def recursion(n):
     if (n > 0):
@@ -142,6 +137,7 @@ recursion(6)
     6 5 4 3 2 1
 
 The first recursion call is made with `recursion(6)`. As long as `n > 0`, it will print `n` and then call the next recursive call. `recursion(6)` prints `6` and then calls `recursion(5)`. This call will print `5` and then call `recursion(4)`. This process will continue until `recursion(0)` is called.
+
 
 When `recursion(0)` is called, `n = 0`, so the recursive call terminates without performing anything. Since `recursion(0)` has terminated, we are now back at `recursion(1)` call, which have already performed its operation (printing `1`) before calling `recursion(0)`. Since both operations (`print(1)` & `recursion(0)`) of `recursion(1)` are now finished, `recursion(1)` terminates and we are now back at `recursion(2)` call. This continues until we return back to `recursion(6)`, after which our recursion is done.
 
@@ -164,6 +160,7 @@ This is an example of tail recursion. *Tail recursion is a type of recursion in 
 ### Head Recursion
 
 Now, let’s take the above example and make it a head recursion instead, in which all operations are performed in the returning phase:
+
 
 ```python
 def recursion(n):
@@ -195,6 +192,7 @@ If we were to write this head recursion in iterative form, we need to write it i
 
 If we write the above head recursion code in exactly the same order in iterative form, we would have the following:
 
+
 ```python
 def iteration(n):
   while (n > 0):
@@ -208,12 +206,13 @@ iteration(6);
 
 This is not what we were trying to get. To get 1 2 3 4 5 6, we have to find a different way to write the iteration function:
 
+
 ```python
 def iteration(n):
- i=1
- while (i<=n):
-  print(i, end=" ")
-  i += 1
+	i=1
+	while (i<=n):
+		print(i, end=" ")
+		i += 1
 
 
 iteration(6)
@@ -227,6 +226,7 @@ But, unlike tail recursion, it is more difficult to write head recursion in an i
 ## A More Complex Recursion Example
 
 Now, let’s look at the following recursion function:
+
 
 ```python
 def recursion(n):
@@ -245,11 +245,11 @@ print(final)
     6 5 4 3 2 1
     21
 
+
 Here, we have a combination of operations performed in the calling phase and in returning phase.
 This recursion is definitely more complex, but using our understanding of the operations performed in the two phases of recursion, we can make sense of how this recursion would return the final result.
 
 > Here is a simple rule for when an operation in a recursive function is performed:
-
 1. Anything that comes before the recursive call is performed in the `calling phase`
 2. Anything that comes after the recursive call is performed in the `returning phase
 
@@ -262,9 +262,10 @@ The first part is basically the same as the tail recursion example we have seen 
 
 > Now, we have to look at the operations performed in the returning phase:
 
+
 - At `recursion(0)`, since `n = 0`, the base case operation that is outside the recursive block is performed: `return 0`. The return value for `recursion(0)` is `0`.
 - Now we are back to `recursion(1)`. Since we now have the return value from `recursion(1 — 1) = recursion(0)`, which is 0, we have:  `result = 0 + 1 = 1`. `return result = return 1`. The return value for `recursion(1)` is `1`.
-- Now we are back to `recursion(2)`. `result = 1 + 2 = 3`. `return result = return 3`. The return value for`recursion(2)` is `3`.
+- Now we are back to `recursion(2)`. `result = 1 + 2 = 3`. `return result = return 3`. The return value for` recursion(2)` is `3`.
 - Now we are back to `recursion(3)`. `result = 3 + 3 = 6`. `return result = return 6`. The return value for `recursion(3)` is `6`.
 - ....
 - Now we are back to `recursion(6)`. `result = 15 + 6 = 21`. `return result = return 21`. The return value for `recursion(6)` is `21`.
@@ -273,3 +274,142 @@ The final result of the above recursive function is thus:
 
 - **`6 5 4 3 2 1` (performed in the calling phase)**
 - **`21` (the final result of operations performed in the returning phase)**
+
+## Principle of Mathematical Induction (PMI) and Recursion
+
+Mathematical Induction is a technique to prove mathematical properties or formulations that are held for every natural numbers (0  and positive integer) or every whole number (positive integer)
+
+<!-- $
+\color{Green} \Large 0 + 1 + 2 + .... + n =\sum_{i=0}^{n} = \frac{n(n+1)}{2}
+
+$ -->
+
+<div align="center" >
+<img style="transform: translateY(0.1em);" src="..\svg\RPiDZ9fei7.svg">
+</div>
+
+For example, let us prove the equation for adding positive integers from `0 (or 1) to n`:
+
+First, prove when `n = 0`:
+
+<!-- $
+\color{Green} \Large \frac{0(0+1)}{2} = 0
+
+$ -->
+
+<div align="center" >
+<img align="center" style="transform: translateY(0.1em);" src="..\svg\igkMzJhgYu.svg">
+</div>
+
+Second, assume that the equation is true for adding up from `0 to n-1`:
+
+<!-- $
+\color{Green} \Large \color{Green} \Large 0 + 1 + 2 + .... + n - 1 = \frac{(n - 1)(n - 1 + 1)}{2}  = \frac{n(n - 1)}{2}
+
+$ -->
+<div align="center" >
+<img align="center" style="transform: translateY(0.1em);" src="..\svg\pbAmZtcpcO.svg">
+</div>
+
+Third, using the assumption in the previous step, show the equation is true for adding up from `0 to n`:
+
+
+<!-- $
+\color{Green} \Large \color{Green} \Large 0 + 1 + 2 + .... + n - 1 + n = \frac{n (n - 1)}{2} + n = \frac{n (n - 1) + 2n}{2} = \frac{n^{2} - n + 2n}{2} = \frac{n(n+1)}{2}
+
+$ -->
+<div align="center" >
+<img style="transform: translateY(0.1em);" src="..\svg\xQ8RrNLlwK.svg">
+</div>
+
+This proves the equation works for every natural number because:
+
+1. It works for the smallest number `0` (or 1 some times);
+2. if the equation is true for one natural number then it is true for the next consecutive number;
+3. True for 0 so true for 1, then true for 2, and true for 3 and so on… (this is the point where my mind was blown away!)
+
+### Steps for solving using PMI:
+
+1. Task 1: `f(0)`, `f(1)` is true
+2. Task 2: Assume `f(k)` is True.
+3. Task 3: Prove `f(k+1)` is True.
+
+
+**- Prove that Prove the sum of first n integers is `n(n+1)/2`.**
+
+<!-- $
+\Large \color{Green} \sum_{}^{}n = \frac{n(n+1)}{2}
+
+$ -->
+i.e.
+
+<div align="center" >
+<img style="transform: translateY(0.1em);" src="..\svg\RJJ9bi0X3k.svg">
+</div>
+
+- Solution:
+
+1. Task 1: `f(0)`, `f(1)` is true
+
+<!-- $
+\Large \color{Green} \sum_{}^{}1 = \frac{1(1+1)}{2} = 2/2 = 1
+$ -->
+<div align="center" >
+<img style="transform: translateY(0.1em);" src="..\svg\Tpv7jP790Y.svg">
+</div>
+
+<!-- $
+\Large \color{Green} \sum_{}^{}k = \frac{k(k+1)}{2}
+$ -->
+
+  2. Task 2: Assume `f(k)` is True.
+
+
+<div align="center" >
+<img style="" src="..\svg\zRIEchlWSz.svg">
+</div>
+
+  3. Task 3: Prove `f(k+1)` is True.
+
+
+<!-- $
+\Large \color{Green} \sum_{}^{}k +1  = \frac{(k+1)(k+1+1)}{2} = \frac{(k+1)(k+2)}{2}
+
+$ -->
+
+for `f(k+1)`:
+
+<div align="center" >
+<img style="transform: translateY(0.1em); " src="..\svg\I7Nixbka61.svg">
+</div>
+
+<!-- $
+\Large \color{Green} \sum_{}^{}k+1
+  = \sum_{}^{}k+ (k+1)
+  = \frac{k(k+1)}{2} + \frac{2(k+1)}{2}
+  = (\frac{k+1}{2}) * (k+2)
+
+$ -->
+
+so,
+
+<div align="center" >
+<img style="transform: translateY(0.1em);" src="..\svg\dJyycnIF1V.svg">
+</div>
+
+I found mathematical induction and a recursive algorithm very similar in three points:
+1. The basic case should be established; in the first example, n=0 case and in the second example, m = 0
+2. Substitutions are used to go through the cases; in the first example, the last number in the series being used in the equation and in the second example, m and n being updated until m becomes 0 or less than 0
+3. There is no set end: mathematical induction is used for infinitely many numbers of sequences and a recursive algorithm is used for an iteration without a set range of indices.
+
+When I realized these similarities, it seems easier to know when to use a recursion algorithm and how to build it. Using these three things, a recursion algorithm is broken down into two parts that are also indicators when to use the algorithm:
+
+1. Find a parameter value that represents a basic case and see it can end the loop that you are about to build
+2. Find a pattern that is repeated and see if it can be expressed simply by updating values for variables
+
+## Changing Python Recursion Limit
+
+```python
+import sys
+sys.setrecursionlimit(100000)
+```
