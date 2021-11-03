@@ -1,14 +1,18 @@
+- [Recursion](#recursion)
+  - [Parts Of A Recursive Algorithm:](#parts-of-a-recursive-algorithm)
+  - [Recursion vs. Iteration](#recursion-vs-iteration)
+  - [The Two Phases of Recursion](#the-two-phases-of-recursion)
+  - [Recursion is like Inception](#recursion-is-like-inception)
+  - [Recursion in Code](#recursion-in-code)
+    - [Iteration](#iteration)
+    - [Tail Recursion](#tail-recursion)
+    - [Head Recursion](#head-recursion)
+  - [A More Complex Recursion Example](#a-more-complex-recursion-example)
+  - [🌟🌟🌟Principle of Mathematical Induction (PMI) and Recursion 🚀🚀](#principle-of-mathematical-induction-pmi-and-recursion-)
+    - [Steps for solving using PMI:](#steps-for-solving-using-pmi)
+  - [Changing Python Recursion Limit](#changing-python-recursion-limit)
+
 # Recursion
-
-```sh
-n! = n * (n - 1) * (n - 2) * ...... * 1
-n! = n * (n - 1)!
-
-fact(n) = n * fact(n - 1)
-fact(n - 1) = (n - 1) * fact(n - 2)
-
-0! = 1
-```
 
 `Recursion` is a problem-solving technique that involves breaking a problem into smaller instances of the same problem (also called `subproblems`) until we get a small enough **subproblem having a trivial solution**. We can say that recursion is “defining a problem in terms of itself” as it involves a function calling itself with a base case to terminate the infinite loop.
 
@@ -275,7 +279,7 @@ The final result of the above recursive function is thus:
 - **`6 5 4 3 2 1` (performed in the calling phase)**
 - **`21` (the final result of operations performed in the returning phase)**
 
-## Principle of Mathematical Induction (PMI) and Recursion
+## 🌟🌟🌟Principle of Mathematical Induction (PMI) and Recursion 🚀🚀
 
 Mathematical Induction is a technique to prove mathematical properties or formulations that are held for every natural numbers (0  and positive integer) or every whole number (positive integer)
 

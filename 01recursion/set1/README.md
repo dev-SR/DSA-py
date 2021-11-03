@@ -1,3 +1,14 @@
+- [Problem Set 1](#problem-set-1)
+	- [Factorial](#factorial)
+	- [Sum of first n Integer](#sum-of-first-n-integer)
+	- [Print of first n Integer](#print-of-first-n-integer)
+	- [Fibonacci Number](#fibonacci-number)
+	- [Sum of Array](#sum-of-array)
+	- [Check Number in Array](#check-number-in-array)
+	- [Check If List Is Sorted Or Not](#check-if-list-is-sorted-or-not)
+	- [First Index Of Number in an Array](#first-index-of-number-in-an-array)
+	- [Last Index Of Number in an Array](#last-index-of-number-in-an-array)
+
 # Problem Set 1
 
 ## Factorial
@@ -48,7 +59,7 @@ print(sum_n(5))
 ```
 
     15
-    
+
 
 ## Print of first n Integer
 
@@ -66,7 +77,7 @@ def print_1_to_n(n):
 	print_1_to_n(n-1)  # calling phase
 	print(n)  # op in returning phase
 	return # op in returning phase
-	
+
 
 print_1_to_n(5)
 
@@ -77,7 +88,7 @@ print_1_to_n(5)
     3
     4
     5
-    
+
 
 
 ```python
@@ -98,7 +109,7 @@ print_1_to_n(5)
     3
     2
     1
-    
+
 
 ## Fibonacci Number
 
@@ -126,12 +137,12 @@ print(fib(6)) # 1,1,2,3,5, 8
 ```
 
     8
-    
+
 
 ## Sum of Array
 
 - Base Case: If List is of size `0`, then `sum=0`;
-- Induction Hypothesis: Summation of List of size `l-1`, (`[1:]`) is `smallSum`, 
+- Induction Hypothesis: Summation of List of size `l-1`, (`[1:]`) is `smallSum`,
 - Induction Step/Recursive Calculation:
   - `a[0] + smallSum`
 
@@ -142,25 +153,25 @@ def sum_of_array(a):
 	l = len(a)
 	if l == 0:
 		return 0
-		
+
 	smallerList = a[1:]
 	smallerSum = sum_of_array(smallerList)
 	return a[0] + smallerSum
-	
+
 print(sum_of_array([2,2,2,1,1]))
-	
+
 ```
 
     8
-    
+
 
 ## Check Number in Array
 
 - Base Case: List is of size `0` or `1` => `return False`
 - Induction Hypothesis: `x` is present in List of size `l-1`
 - Induction Step:
-  - if `a[0]!=x` 
-  - ask recursion to find `x` in the `smallerList` 
+  - if `a[0]!=x`
+  - ask recursion to find `x` in the `smallerList`
 
 
 ```python
@@ -168,20 +179,20 @@ def checkNumberInArray(x,a):
 	l = len(a)
 	if l == 0:
 		return False
-		
+
 	if x == a[0]:
 		return True
-	
+
 	smallerList = a[1:]
 	presentInSmallerList = checkNumberInArray(x,smallerList)
-	
+
 	if presentInSmallerList:
 		return True
 	else:
 		return False
 
 
-	
+
 print(checkNumberInArray(3,[1,2,3,4,5]))
 print(checkNumberInArray(6, [1, 2, 3, 4, 5]))
 
@@ -189,7 +200,7 @@ print(checkNumberInArray(6, [1, 2, 3, 4, 5]))
 
     True
     False
-    
+
 
 ## Check If List Is Sorted Or Not
 
@@ -202,31 +213,31 @@ print(checkNumberInArray(6, [1, 2, 3, 4, 5]))
 ```
     False<==> f([1,2,1,5,4])
                 ↓
-              1>2(x).....do nothing 
+              1>2(x).....do nothing
                 ↓
-        False <==>  f([2,1,5,4]) 
+        False <==>  f([2,1,5,4])
                       ↓
-                    2>1 return false 
+                    2>1 return false
                       ↓
                 ☝  False
-                      
+
 ```
 
 ```
     TRUE<==>  f([1,2,3])
                 ↓
-              1>2(x).....do nothing 
+              1>2(x).....do nothing
                 ↓
-        TRUE <==>  f([2,3]) 
+        TRUE <==>  f([2,3])
                       ↓
-                    2>3(x).....do nothing 
+                    2>3(x).....do nothing
                       ↓
-          TRUE <==>  f([3]) 
+          TRUE <==>  f([3])
                         ↓
-                      len = 1 
+                      len = 1
                         ↓
                   ☝  TRUE
-                      
+
 ```
 
 
@@ -235,11 +246,11 @@ def isSorted(a):
 	l = len(a)
 	if l == 0 or l == 1: # base case
 		return True
-		
-	# Induction step	
-	if a[0] > a[1]: 
+
+	# Induction step
+	if a[0] > a[1]:
 		return False
-		
+
 	smallerList = a[1:]
 	isSmallerSorted = isSorted(smallerList)
 	if isSmallerSorted:
@@ -254,7 +265,7 @@ print(isSorted([1,2,3,4,5]))
 
     False
     True
-    
+
 
 But current solution is making two many Copies in the memory each time of calling the function. So below code is memory efficient:
 
@@ -266,35 +277,35 @@ But current solution is making two many Copies in the memory each time of callin
 ```
     False<==> f([1,2,1,5,4],si=0)
                 ↓
-              a[si]>a[si+1].....do nothing 
+              a[si]>a[si+1].....do nothing
                 ↓
                 si+1
                 ↓
-      False <==> f([2,1,5,4],1) 
+      False <==> f([2,1,5,4],1)
                       ↓
-                    a[si]>a[si+1] return false 
+                    a[si]>a[si+1] return false
                       ↓
                 ☝  False
-                      
+
 ```
 
 ```
     TRUE<==>  f([1,2,3],0)
                 ↓
-              a[si]>a[si+1].....do nothing 
+              a[si]>a[si+1].....do nothing
                     ↓
                     si+1
                     ↓
-        TRUE <==>  f([2,3],1) 
+        TRUE <==>  f([2,3],1)
                       ↓
-                    2>3(x).....do nothing 
+                    2>3(x).....do nothing
                       ↓
-          TRUE <==>  f([3],2) 
+          TRUE <==>  f([3],2)
                         ↓
-                      si = l 
+                      si = l
                         ↓
                   ☝  TRUE
-                      
+
 ```
 
 
@@ -303,10 +314,10 @@ def isSortedBetter(a,si):# si = start index
 	l = len(a)
 	if si == l-1 or si == l:
 		return True
-		
+
 	if a[si] > a[si+1]:
 		return False
-		
+
 	isSmallerSorted = isSortedBetter(a,si+1)
 	return isSmallerSorted
 
@@ -317,7 +328,7 @@ print(isSortedBetter([1, 2, 4, 3, 5], 0))
 
     True
     False
-    
+
 
 ## First Index Of Number in an Array
 
@@ -334,10 +345,10 @@ def firstIndex(a,x):
 	l = len(a)
 	if l == 0:
 		return -1
-		
+
 	if a[0] == x:
 		return 0
-		
+
 	smallerList = a[1:]
 	foundInSmallerList = firstIndex(smallerList,x)
 	if foundInSmallerList== -1:
@@ -352,7 +363,7 @@ print(firstIndex([1, 2, 3, 4, 5], 10))
 
     2
     -1
-    
+
 
 
 ```python
@@ -360,13 +371,13 @@ def firstIndexBetter(a,x,si):
 	l = len(a)
 	if si == l:
 		return -1
-		
+
 	if a[si] == x:
 		return si
-		
+
 	foundInSmallerList = firstIndexBetter(a,x,si+1)
 	return foundInSmallerList
-	
+
 print(firstIndexBetter([1,2,3,4,5],3,0))
 print(firstIndexBetter([1, 2, 3, 4, 5], 10, 0))
 
@@ -374,25 +385,25 @@ print(firstIndexBetter([1, 2, 3, 4, 5], 10, 0))
 
     2
     -1
-    
+
 
 ## Last Index Of Number in an Array
 
 ```sh
     3 <==> f([1,3,4,3],3)
                 ↓
-        2,2+1 <==> f([3,4,3],3) 
+        2,2+1 <==> f([3,4,3],3)
                       ↓
-			1,1+1 <==> f([4,3],3) 
-						↓		
-				0,0+1 <==> f([3],3) 
-							↓	  
-			   -1, a[0]==3 <==> f([],3) 
-								↓							
-						  return -1					  
-					  
+			1,1+1 <==> f([4,3],3)
+						↓
+				0,0+1 <==> f([3],3)
+							↓
+			   -1, a[0]==3 <==> f([],3)
+								↓
+						  return -1
+
                 ☝  False
-                      
+
 ```
 
 
@@ -402,7 +413,7 @@ def lastIndex(a,x):
 	l = len(a)
 	if l == 0:
 		return -1
-		
+
 	smallerList = a[1:]
 	foundInSmallerList = lastIndex(smallerList,x) # Calling phase
 	# op in returning phase
@@ -418,7 +429,7 @@ print(lastIndex([1,3,4,3],3))
 ```
 
     3
-    
+
 
 
 ```python
@@ -426,7 +437,7 @@ def lastIndexBetter(a,x,si):
 	l = len(a)
 	if si == l:
 		return -1
-		
+
 	foundInSmallerList = lastIndexBetter(a,x,si+1) # Calling phase
 	# op in returning phase
 	if foundInSmallerList != -1:
@@ -443,4 +454,4 @@ print(lastIndexBetter(a,x,0))
 ```
 
     3
-    
+
