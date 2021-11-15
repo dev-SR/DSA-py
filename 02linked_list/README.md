@@ -1,14 +1,15 @@
 - [Linked List](#linked-list)
 	- [Node Creation](#node-creation)
 	- [Linked List Creation v1](#linked-list-creation-v1)
-
 # Linked List
 
 <div align="center">
 <img src="img/ll_1.jpg" alt="rec" width="800px">
 </div>
 
+
 ## Node Creation
+
 
 ```python
 class Node:
@@ -45,7 +46,7 @@ print(a.next.data)
 ## Linked List Creation v1
 
 <div align="center">
-<img src="img/linked_list_creation_v1.jpg" alt="rec" width="900px" >
+<img src="img/linked_list_creation_v1.jpg" alt="rec" width="1000px" >
 </div>
 <!-- width="800px" -->
 
