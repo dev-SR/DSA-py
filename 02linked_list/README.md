@@ -1,5 +1,6 @@
 - [Linked List](#linked-list)
 	- [Node Creation](#node-creation)
+		- [👉 get your head around 🌟🌟](#-get-your-head-around-)
 	- [Linked List Creation v1](#linked-list-creation-v1)
 	- [Linked List Creation v2 - Optimized](#linked-list-creation-v2---optimized)
 	- [Print ith node](#print-ith-node)
@@ -7,7 +8,9 @@
 	- [Delete At Ith Position - Iteratively](#delete-at-ith-position---iteratively)
 # Linked List
 
-<!-- jupyter nbconvert --to markdown linked_list.ipynb --output README.md -->
+<!--
+jupyter nbconvert --to markdown linked_list.ipynb --output README.md
+ -->
 <div align="center">
 <img src="img/ll_1.jpg" alt="rec" width="800px">
 </div>
@@ -46,6 +49,12 @@ print(a.next.data)
     2
     2
 
+
+### 👉 get your head around 🌟🌟
+
+<div align="center">
+<img src="img/remember.jpg" alt="rec" width="700px">
+</div>
 
 ## Linked List Creation v1
 
