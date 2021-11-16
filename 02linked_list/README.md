@@ -1,12 +1,13 @@
 - [Linked List](#linked-list)
 	- [Node Creation](#node-creation)
 	- [Linked List Creation v1](#linked-list-creation-v1)
+	- [Linked List Creation v2 - Optimized](#linked-list-creation-v2---optimized)
 # Linked List
 
+<!-- jupyter nbconvert --to markdown linked_list.ipynb --output README.md -->
 <div align="center">
 <img src="img/ll_1.jpg" alt="rec" width="800px">
 </div>
-
 
 ## Node Creation
 
@@ -90,6 +91,60 @@ def printList(head):
 
 ```python
 head = takeInput() # 1 2 3 -1
+printList(head)
+```
+
+    1->2->3->None
+
+
+## Linked List Creation v2 - Optimized
+
+<div align="center">
+<img src="img/linked_list_creation_v2.jpg" alt="rec" width="1000px" >
+</div>
+<!-- width="800px" -->
+
+
+```python
+class Node:
+
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+
+
+def takeInput():
+	# 1 2 3 -1 ----->  [1,2,3,-1]
+	inputList = [int(ele) for ele in input().split()]
+
+	head = None
+	for currentData in inputList:
+		if currentData == -1:
+			break
+
+		newNode = Node(currentData)
+		# fist node
+		if head is None:
+			head = newNode
+			tail = newNode
+		else:
+			tail.next = newNode
+			tail = newNode
+
+	return head
+
+
+def printList(head):
+	while head is not None:
+		print(str(head.data)+"->", end="")
+		head = head.next
+	print("None")
+
+```
+
+
+```python
+head = takeInput()  # 1 2 3 -1
 printList(head)
 ```
 
