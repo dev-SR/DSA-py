@@ -4,7 +4,7 @@
 	- [Linked List Creation v2 - Optimized](#linked-list-creation-v2---optimized)
 	- [Print ith node](#print-ith-node)
 	- [Insert At Ith Position - Iteratively](#insert-at-ith-position---iteratively)
-	- [Delete Node](#delete-node)
+	- [Delete Node At Ith Position - Iteratively](#delete-node-at-ith-position---iteratively)
 # Linked List
 
 <!-- jupyter nbconvert --to markdown linked_list.ipynb --output README.md -->
@@ -284,7 +284,7 @@ printList(head)
     1->2->10->3->20->4->5->None
 
 
-## Delete Node
+## Delete Node At Ith Position - Iteratively
 
 <div align="center">
 	<img src="img/delete_iterative.jpg" alt="rec" width="800px" >
