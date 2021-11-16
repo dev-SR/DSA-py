@@ -49,11 +49,10 @@ print(a.next.data)
     2
     2
 
-
 ### 👉 get your head around 🌟🌟
 
 <div align="center">
-<img src="img/remember.jpg" alt="rec" width="700px">
+	<img src="img/remember.jpg" alt="rec" width="1000px">
 </div>
 
 ## Linked List Creation v1
