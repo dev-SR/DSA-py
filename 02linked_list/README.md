@@ -1,11 +1,14 @@
 - [Linked List](#linked-list)
-	- [Node Creation](#node-creation)
-		- [👉 get your head around 🌟🌟](#-get-your-head-around-)
-	- [Linked List Creation v1](#linked-list-creation-v1)
-	- [Linked List Creation v2 - Optimized](#linked-list-creation-v2---optimized)
-	- [Print ith node](#print-ith-node)
-	- [Insert At Ith Position - Iteratively](#insert-at-ith-position---iteratively)
-	- [Delete At Ith Position - Iteratively](#delete-at-ith-position---iteratively)
+  - [Node Creation](#node-creation)
+    - [👉 get your head around 🌟🌟](#-get-your-head-around-)
+  - [Linked List Creation v1](#linked-list-creation-v1)
+  - [Linked List Creation v2 - Optimized](#linked-list-creation-v2---optimized)
+  - [Print ith node](#print-ith-node)
+  - [Insert At Ith Position - Iteratively](#insert-at-ith-position---iteratively)
+  - [Delete At Ith Position - Iteratively](#delete-at-ith-position---iteratively)
+  - [Insert At Ith Position - Recursive](#insert-at-ith-position---recursive)
+  - [Delete At Ith Position - Recursive](#delete-at-ith-position---recursive)
+
 # Linked List
 
 <!--
@@ -49,10 +52,11 @@ print(a.next.data)
     2
     2
 
+
 ### 👉 get your head around 🌟🌟
 
 <div align="center">
-	<img src="img/remember.jpg" alt="rec" width="1000px">
+<img src="img/remember_me.jpg" alt="rec" width="1000px">
 </div>
 
 ## Linked List Creation v1
@@ -113,6 +117,7 @@ printList(head)
 
 
 ## Linked List Creation v2 - Optimized
+
 
 <div align="center">
 <img src="img/linked_list_creation_v2.jpg" alt="rec" width="1000px" >
@@ -211,6 +216,7 @@ printList(head,2)
 
 ## Insert At Ith Position - Iteratively
 
+
 <div align="center">
 <img src="img/insert_iterative.jpg" alt="rec" width="800px" >
 </div>
@@ -294,6 +300,8 @@ printList(head)
 
 ## Delete At Ith Position - Iteratively
 
+
+
 <div align="center">
 	<img src="img/delete_iterative.jpg" alt="rec" width="800px" >
 </div>
@@ -352,4 +360,125 @@ printList(head)
     1->2->None
     1->2->3->4->None
     1->2->4->None
+
+
+## Insert At Ith Position - Recursive
+
+- `base` :
+  - `pos<0` -> return `head`
+  - `pos=0` -> perform insertion of `new_node` at head
+- `Induction Hypothesis` :By traversing through the linked list, recursive function will return me `head` of a new linked list with `new_node` inserted at the beginning;e.g. `head->X->|3->4->NULL|`
+- `Induction Step` : after the recursive function call, I will have the returned `head` of newly inserted node;
+  - So, I'll have to attach leftovers of the original linked list to the new linked list. e.g. `1->2->X->3->4->NULL`
+
+
+<div align="center">
+<img src="img/insert_recursive.jpg" alt="rec" width="900px" >
+</div>
+<!-- width="800px" -->
+
+
+```python
+class Node:
+
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+
+
+def create(inputList):
+	head = None
+	for currentData in inputList:
+		newNode = Node(currentData)
+		if head is None:
+			head = newNode
+			tail = newNode
+		else:
+			tail.next = newNode
+			tail = newNode
+	return head
+
+def printList(head):
+	while head is not None:
+		print(str(head.data)+"->", end="")
+		head = head.next
+	print("None")
+
+
+def insertAtPosR(head,pos,data):
+
+	if pos < 0:
+		return head
+
+	if pos==0:
+		newNode = Node(data) # point head to newNode
+		newNode.next = head # insert newNolde at the beginning
+		return newNode
+
+	# if head is None:
+	# 	return None
+
+	new_head = insertAtPosR(head.next,pos-1,data)
+	head.next = new_head
+	return head
+
+```
+
+
+```python
+head = create([1, 2, 3, 4, 5])
+printList(head)
+head = insertAtPosR(head, 2, 10)
+printList(head)
+head = insertAtPosR(head, 2, 20)
+printList(head)
+
+```
+
+    1->2->3->4->5->None
+    1->2->10->3->4->5->None
+    1->2->20->10->3->4->5->None
+
+
+## Delete At Ith Position - Recursive
+
+- `base` :
+  - `pos<0` -> return `head`
+  - `pos=0` -> perform deletion of `new_node` at head
+- `Induction Hypothesis` :By traversing through the linked list, recursive function will return me `head` after deleting node from linked list.
+- `Induction Step` : after the recursive function call, I will have the returned `head` of new linked list with deleted node;
+  - So, I'll have to attach leftovers of the original linked list to the new linked list.
+
+<div align="center">
+<img src="img/delete_recursive.jpg" alt="rec" width="900px" >
+</div>
+<!-- width="800px" -->
+
+
+```python
+def deleteAtPosR(head, pos):
+
+	if pos < 0:
+		return head
+
+	if pos ==0:
+		new_head = head.next
+		del head
+		return new_head
+
+	new_head = deleteAtPosR(head.next,pos-1)
+	head.next = new_head
+	return head
+```
+
+
+```python
+head = create([1, 2, 3, 4, 5])
+printList(head)
+head = deleteAtPosR(head, 2)
+printList(head)
+```
+
+    1->2->3->4->5->None
+    1->2->4->5->None
 
