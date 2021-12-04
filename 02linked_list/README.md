@@ -9,7 +9,7 @@
 	- [Insert At Ith Position - Recursive](#insert-at-ith-position---recursive)
 	- [Delete At Ith Position - Recursive](#delete-at-ith-position---recursive)
 	- [Reverse Linked_List - Recursive](#reverse-linked_list---recursive)
-		- [Optimized: skip finding tail](#optimized-skip-finding-tail)
+		- [Optimized: finding tail easily](#optimized-finding-tail-easily)
 
 # Linked List
 
@@ -529,7 +529,7 @@ printList(head)
     1->2->3->4->5->None
     5->4->3->2->1->None
 
-### Optimized: skip finding tail
+### Optimized: finding tail easily
 
 we can skip finding tail as `head.next` (`2` in above example)  is the `tail` for that Induction Step.
 
