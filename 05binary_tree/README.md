@@ -1,7 +1,7 @@
 - [Binary Tree](#binary-tree)
 	- [Introduction](#introduction)
 	- [Creating Binary Tree](#creating-binary-tree)
-	- [Printing Binary Tree](#printing-binary-tree)
+	- [Printing Binary Tree + get height](#printing-binary-tree--get-height)
 
 # Binary Tree
 
@@ -57,7 +57,13 @@ btn1.left = btn2
 btn1.right = btn3
 ```
 
-## Printing Binary Tree
+## Printing Binary Tree + get height
+
+- `base case`: Check if the given node is `null`. If `null`, then `return` from the function.
+- `Inductive step`: Print the data of the given node.
+- `Hypothesis`: recursive function will print
+  - left subtree
+  - right subtree
 
 
 ```python
@@ -76,36 +82,12 @@ print_tree(btn1)
     3
 
 
+<div align="center">
+<img src="img/print_tree.jpg" alt="rec" width="1000px">
+</div>
+
 
 ```python
-def print_tree_details(root):
-	if root is None:
-		return
-	# printing root node
-	print(" "*10,end="")
-	print(root.data)
-	print(" "*9, end="")
-	print("⬋⬊")
-	# printing left node
-	if root.left != None:
-		print(" "*8, end="")
-		print(root.left.data,end="")
-	else:
-		print(" "*8, end="")
-		print("✖", end="")
-	# printing right node
-	if root.right != None:
-		print(" "*3, end="")
-		print(root.right.data)
-	else:
-		print(" "*2, end="")
-		print("✖")
-
-	print_tree_details(root.left)
-	print_tree_details(root.right)
-	print()
-
-
 btn = BinaryTreeNode("A")
 btn1 = BinaryTreeNode("B")
 btn2 = BinaryTreeNode("C")
@@ -117,31 +99,105 @@ btn4 = BinaryTreeNode("E")
 btn5 = BinaryTreeNode("F")
 btn2.left = btn4
 btn2.right = btn5
-print_tree_details(btn)
-
 ```
 
-              A
-             ⬋⬊
-            B   C
-              B
-             ⬋⬊
-            D  ✖
-              D
-             ⬋⬊
-            ✖  ✖
+
+```python
+
+def print_tree_details(root,):
+	# print(l)
+	if root is None:
+		return
+	# printing root node
+	print(root.data,end=":")
+	# printing left node
+	if root.left != None:
+		print("L->",root.left.data,end=",")
+
+	# printing right node
+	if root.right != None:
+		print("R->",root.right.data,end="")
+	print()
+	print_tree_details(root.left)
+	print_tree_details(root.right)
 
 
-              C
-             ⬋⬊
-            E   F
-              E
-             ⬋⬊
-            ✖  ✖
 
-              F
-             ⬋⬊
-            ✖  ✖
+print_tree_details(btn)
+```
+
+    A:L-> B,R-> C
+    B:L-> D,
+    D:
+    C:L-> E,R-> F
+    E:
+    F:
+
+
+
+```python
+def get_height(root):
+	if root is None:
+		return 0
+	left_height = get_height(root.left)
+	right_height = get_height(root.right)
+	return int(max(left_height,right_height) + 1)
+
+level = get_height(btn)  # to set whitespace according to level while printing
+
+def print_tree_details(root,l):
+	# print(l)
+	if root is None:
+		return
+	# printing root node
+	print(" "*2*l,end="")
+	print(root.data)
+	print(" "*((2*l)-1), end="")
+	print("⬋⬊")
+	# printing left node
+	if root.left != None:
+		print(" "*2*(l-1), end="")
+		print(root.left.data,end="")
+	else:
+		print(" "*2*(l-1), end="")
+		print("✖", end="")
+	# printing right node
+	if root.right != None:
+		print(" "*3, end="")
+		print(root.right.data)
+	else:
+		print(" "*2, end="")
+		print("✖")
+
+	print_tree_details(root.left,l-1)
+	print_tree_details(root.right,l-1)
+	print()
+
+
+print_tree_details(btn,level)
+```
+
+          A
+         ⬋⬊
+        B   C
+        B
+       ⬋⬊
+      D  ✖
+      D
+     ⬋⬊
+    ✖  ✖
+
+
+        C
+       ⬋⬊
+      E   F
+      E
+     ⬋⬊
+    ✖  ✖
+
+      F
+     ⬋⬊
+    ✖  ✖
 
 
 
