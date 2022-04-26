@@ -12,10 +12,11 @@
     - [Head Recursion](#head-recursion)
     - [A More Complex Recursion Example](#a-more-complex-recursion-example)
     - [Visualizing CallStack 🚀🚀🚀](#visualizing-callstack-)
+      - [Simple Example:](#simple-example)
+      - [More Complex Example:](#more-complex-example)
   - [Principle of Mathematical Induction (PMI) and Recursion](#principle-of-mathematical-induction-pmi-and-recursion)
     - [Steps for solving using PMI:](#steps-for-solving-using-pmi)
   - [Changing Python Recursion Limit](#changing-python-recursion-limit)
-
 
 ```python
 """
@@ -291,39 +292,177 @@ The final result of the above recursive function is thus:
 
 ### Visualizing CallStack 🚀🚀🚀
 
+#### Simple Example:
+
 
 ```python
-# obj = {
-# 	"fn": "factorial",
-# 	"calling":True,
-# 	"returns":3,
-# }
-callstack = ["fun(1)", "fun(322)", "fun(3)", "fun(4)", "fun(5)"]
-def printStack(callstack,returns=2): # means last function in callstack will return 2
+callstack = []
+def factorial(n, callstack):
+  print("Calling Phase:")
+  callstack.append(f"factorial({n})")
+  print(callstack)
+  if (n <= 1):
+    return 1;
+  else:
+    returns = factorial(n - 1, callstack)
+    print("Returning Phase:")
+    fact = returns * n;
+    callstack.pop()
+    print(callstack)
+    return fact;
+
+n=5
+final= factorial(n, callstack)
+print(final)
+
+```
+
+    Calling Phase:
+    ['factorial(5)']
+    Calling Phase:
+    ['factorial(5)', 'factorial(4)']
+    Calling Phase:
+    ['factorial(5)', 'factorial(4)', 'factorial(3)']
+    Calling Phase:
+    ['factorial(5)', 'factorial(4)', 'factorial(3)', 'factorial(2)']
+    Calling Phase:
+    ['factorial(5)', 'factorial(4)', 'factorial(3)', 'factorial(2)', 'factorial(1)']
+    Returning Phase:
+    ['factorial(5)', 'factorial(4)', 'factorial(3)', 'factorial(2)']
+    Returning Phase:
+    ['factorial(5)', 'factorial(4)', 'factorial(3)']
+    Returning Phase:
+    ['factorial(5)', 'factorial(4)']
+    Returning Phase:
+    ['factorial(5)']
+    120
+
+
+#### More Complex Example:
+
+
+```python
+def strike(text):
+    # print('\u0336' + 'c' + '\u0336')
+    result = ''
+    for c in text:
+        result = result + c + '\u0336'
+    return result
+
+
+print(strike("helloo"))
+print(len(strike("helloo")))
+
+print(len("helloo"))
+
+```
+
+    h̶e̶l̶l̶o̶o̶
+    12
+    6
+
+
+
+```python
+callstack = []
+
+def buildFunctionDescription(id,f_name,is_calling=True,returns=None,is_popped=False):
+	item = {
+		'id':id,
+		"function": f_name,
+		"returns": returns,
+		"isCalling": is_calling,
+		"isPopped": is_popped,
+	}
+	return item
+
+def popFromCallStack(id,callstack):
+	return callstack.filter(lambda i: i['id'] != id)
+
+
+def popFromCallStackStrike(pop_id, callstack, returns, caller_id=None):
+	# find item to be popped/strikethrough
+	item = [el for el in callstack if el['id'] == pop_id][0]
+	item['function'] = strike(item['function'])
+	item['isPopped'] = True
+	item['returns'] = returns
+	item['isCalling'] = False
+	# replace item in callstack where id == id
+	for i in callstack:
+		if i['id'] == pop_id:
+			i = item
+	# sort by id
+	callstack = sorted(callstack, key=lambda i: i['id'], reverse=False)
+	# find item to be calling
+
+	if(caller_id):
+		item = [el for el in callstack if el['id'] == caller_id][0]
+		item['isCalling'] = True
+
+	return callstack
+
+def buildCallStack(n):
+	callstack = []
+	for i in range(n):
+		item = buildFunctionDescription(id=i,f_name=f"fun({i})")
+		callstack.append(item)
+	return callstack
+
+
+def StackFormation(callstack, newItem):
+	# make isCalling False for all items
+	for i in callstack:
+		i['isCalling'] = False
+	callstack.append(newItem)
+	callstack = sorted(callstack, key=lambda i: i['id'], reverse=False)
+	return callstack
+
+
+
+callstack = buildCallStack(5)
+callstack = popFromCallStackStrike(pop_id=0,callstack=callstack,returns=1,caller_id=None)
+
+print(callstack)
+```
+
+    [{'id': 0, 'function': 'f̶u̶n̶(̶0̶)̶', 'returns': 1, 'isCalling': False, 'isPopped': True}, {'id': 1, 'function': 'fun(1)', 'returns': None, 'isCalling': True, 'isPopped': False}, {'id': 2, 'function': 'fun(2)', 'returns': None, 'isCalling': True, 'isPopped': False}, {'id': 3, 'function': 'fun(3)', 'returns': None, 'isCalling': True, 'isPopped': False}, {'id': 4, 'function': 'fun(4)', 'returns': None, 'isCalling': True, 'isPopped': False}]
+
+
+
+```python
+def printStack(callstack):
 	callstackSize = len(callstack)
-	if (callstackSize == 0): return
-	maxLengthAmongListItem = max(len(i) for i in callstack)
-	# stackPrintHeight = stackSize//2
-	for i,el in reversed(list(enumerate(callstack))):
-		if (not returns and i == callstackSize - 1):
+	if (callstackSize == 0): return # handle empty stack
+	# handle one item remaining
+	elif (callstackSize == 1 and callstack[0]['returns'] != None):
+		maxLengthAmongListItem = max(len(el['function'])
+		                             for el in callstack)
+		maxLengthAmongListItem //= 2 # strickthrough text is half of actual text
+	else:
+		maxLengthAmongListItem = max(len(el['function']) for el in callstack if el['isPopped'] == False)
+
+
+	WS= " "*2
+	for el in callstack:
+		# printStack = f"│{WS}{el['function'].center(maxLengthAmongListItem)}{WS}│"
+		printStack = f"│{WS}{el['function']}{WS}│"
+
+		if (el['isCalling']):
 			print("->",end="")
-			print(f"│{el.center(maxLengthAmongListItem)}│",end="")
+			print(printStack, end="")
 			print()
-		elif (returns and i is (callstackSize -1)):
+		elif (el['returns']):
 			print("  ",end="")
-			print(f"│{el.center(maxLengthAmongListItem)}│",end="")
+			print(printStack, end="")
 			print("⤸",end="")
-			print(returns,end="")
-			print()
-		elif(returns and i is (callstackSize - 2)):
-			print("->",end="")
-			print(f"│{el.center(maxLengthAmongListItem)}│",end="")
+			print(el['returns'],end="")
 			print()
 		else:
 			print("  ",end="")
-			print(f"│{el.center(maxLengthAmongListItem)}│")
+			print(printStack)
 	print("  ", end="")
-	print(f"└{'─'*(maxLengthAmongListItem)}┘")
+	# print(f"└{'─'*(maxLengthAmongListItem+4)}┘")
+	print(f"└{'─'*(maxLengthAmongListItem+4)}┘")
 
 
 printStack(callstack)
@@ -332,86 +471,96 @@ printStack(callstack)
 
 ```
 
-      │ fun(5) │⤸2
-    ->│ fun(4) │
-      │ fun(3) │
-      │fun(322)│
-      │ fun(1) │
-      └────────┘
+      │  f̶u̶n̶(̶0̶)̶  │⤸1
+    ->│  fun(1)  │
+    ->│  fun(2)  │
+    ->│  fun(3)  │
+    ->│  fun(4)  │
+      └──────────┘
 
 
 
 ```python
 callstack = []
-def factorial(n,callstack):
-  callstack.append(f'f({n})')
-  printStack(callstack,returns=None)
+def factorial(n, callstack):
+  print("Calling Phase:")
+  fn  = buildFunctionDescription(n,f"fun({n})")
+  callstack = StackFormation(callstack,fn)
+  printStack(callstack)
+  # print(callstack)
   if (n <= 1):
-    printStack(callstack,returns=1)
-    callstack.pop()
     return 1;
   else:
-    result = factorial(n - 1,callstack) * n;
-    printStack(callstack,returns=result)
-    callstack.pop()
+    returns = factorial(n - 1, callstack)
+    print("Returning Phase:")
+    fact = returns * n;
+    # print(callstack)
+    callstack = popFromCallStackStrike(n-1, callstack, returns=returns,caller_id=n)
     printStack(callstack)
-    return result;
-final = factorial(5,callstack);
+
+    return fact;
+
+n=5
+final= factorial(n, callstack)
 print()
+print("Final Returned:")
+callstack = popFromCallStackStrike(n, callstack, returns=final)
+printStack(callstack)
 print(final)
 
 ```
 
-    ->│f(5)│
-      └────┘
-    ->│f(4)│
-      │f(5)│
-      └────┘
-    ->│f(3)│
-      │f(4)│
-      │f(5)│
-      └────┘
-    ->│f(2)│
-      │f(3)│
-      │f(4)│
-      │f(5)│
-      └────┘
-    ->│f(1)│
-      │f(2)│
-      │f(3)│
-      │f(4)│
-      │f(5)│
-      └────┘
-      │f(1)│⤸1
-    ->│f(2)│
-      │f(3)│
-      │f(4)│
-      │f(5)│
-      └────┘
-      │f(2)│⤸2
-    ->│f(3)│
-      │f(4)│
-      │f(5)│
-      └────┘
-      │f(3)│⤸2
-    ->│f(4)│
-      │f(5)│
-      └────┘
-      │f(3)│⤸6
-    ->│f(4)│
-      │f(5)│
-      └────┘
-      │f(4)│⤸2
-    ->│f(5)│
-      └────┘
-      │f(4)│⤸24
-    ->│f(5)│
-      └────┘
-      │f(5)│⤸2
-      └────┘
-      │f(5)│⤸120
-      └────┘
+    Calling Phase:
+    ->│  fun(5)  │
+      └──────────┘
+    Calling Phase:
+    ->│  fun(4)  │
+      │  fun(5)  │
+      └──────────┘
+    Calling Phase:
+    ->│  fun(3)  │
+      │  fun(4)  │
+      │  fun(5)  │
+      └──────────┘
+    Calling Phase:
+    ->│  fun(2)  │
+      │  fun(3)  │
+      │  fun(4)  │
+      │  fun(5)  │
+      └──────────┘
+    Calling Phase:
+    ->│  fun(1)  │
+      │  fun(2)  │
+      │  fun(3)  │
+      │  fun(4)  │
+      │  fun(5)  │
+      └──────────┘
+    Returning Phase:
+      │  f̶u̶n̶(̶1̶)̶  │⤸1
+    ->│  fun(2)  │
+      │  fun(3)  │
+      │  fun(4)  │
+      │  fun(5)  │
+      └──────────┘
+    Returning Phase:
+      │  f̶u̶n̶(̶2̶)̶  │⤸2
+    ->│  fun(3)  │
+      │  fun(4)  │
+      │  fun(5)  │
+      └──────────┘
+    Returning Phase:
+      │  f̶u̶n̶(̶3̶)̶  │⤸6
+    ->│  fun(4)  │
+      │  fun(5)  │
+      └──────────┘
+    Returning Phase:
+      │  f̶u̶n̶(̶4̶)̶  │⤸24
+    ->│  fun(5)  │
+      └──────────┘
 
+    Final Returned:
+      │  f̶u̶n̶(̶5̶)̶  │⤸120
+      └──────────┘
     120
 
 
