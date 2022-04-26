@@ -1,4 +1,7 @@
+# Recursion
+
 - [Recursion](#recursion)
+  - [Intro](#intro)
   - [Parts Of A Recursive Algorithm:](#parts-of-a-recursive-algorithm)
   - [Recursion vs. Iteration](#recursion-vs-iteration)
   - [The Two Phases of Recursion](#the-two-phases-of-recursion)
@@ -7,16 +10,43 @@
     - [Iteration](#iteration)
     - [Tail Recursion](#tail-recursion)
     - [Head Recursion](#head-recursion)
-  - [A More Complex Recursion Example](#a-more-complex-recursion-example)
-  - [🌟🌟🌟Principle of Mathematical Induction (PMI) and Recursion 🚀🚀](#principle-of-mathematical-induction-pmi-and-recursion-)
+    - [A More Complex Recursion Example](#a-more-complex-recursion-example)
+    - [Visualizing CallStack 🚀🚀🚀](#visualizing-callstack-)
+  - [Principle of Mathematical Induction (PMI) and Recursion](#principle-of-mathematical-induction-pmi-and-recursion)
     - [Steps for solving using PMI:](#steps-for-solving-using-pmi)
   - [Changing Python Recursion Limit](#changing-python-recursion-limit)
 
-# Recursion
+
+```python
+"""
+jupyter nbconvert --to markdown recursion.ipynb --output README.md
+"""
+```
+
+## Intro
+
+```sh
+n! = n * (n - 1) * (n - 2) * ...... * 1
+n! = n * (n - 1)!
+
+fact(n) = n * fact(n - 1)
+fact(n - 1) = (n - 1) * fact(n - 2)
+
+0! = 1
+```
 
 `Recursion` is a problem-solving technique that involves breaking a problem into smaller instances of the same problem (also called `subproblems`) until we get a small enough **subproblem having a trivial solution**. We can say that recursion is “defining a problem in terms of itself” as it involves a function calling itself with a base case to terminate the infinite loop.
 
+- [https://medium.com/@shishir09/what-is-recursion-in-programming-239d30d12cfe](https://medium.com/@shishir09/what-is-recursion-in-programming-239d30d12cfe)
+- [https://medium.com/free-code-camp/how-recursion-works-explained-with-flowcharts-and-a-video-de61f40cb7f9](https://medium.com/free-code-camp/how-recursion-works-explained-with-flowcharts-and-a-video-de61f40cb7f9)
+- [https://medium.com/analytics-vidhya/understanding-recursion-in-python-f4a8cacce478](https://medium.com/analytics-vidhya/understanding-recursion-in-python-f4a8cacce478)
+- [https://realpython.com/python-thinking-recursively/](https://realpython.com/python-thinking-recursively/)
+
+
+
 ## Parts Of A Recursive Algorithm:
+
+
 
 1. `Base Case`:It is that step where we have to stop recursion and whose value we know beforehand.Therefore while writing any recursive algorithm the first step is to figure out its base case.For example:While finding the factorial of a number, the base case is `fact(1)=1` since(`1! = 1`).
 
@@ -24,10 +54,11 @@
 
 ## Recursion vs. Iteration
 
+
+
 Let’s recap what we already know first. What is recursion?
 
 > Simply, recursion is a loop.
-
 
 Recursion is almost always compared to iteration, which is also a loop. If recursion and iteration are both loops, how are they different?
 
@@ -36,17 +67,13 @@ Let’s look at two of the most prominent differences between recursion and iter
 - `Recursion takes additional stack space` — We know that recursion takes extra memory stack space for each recursive calls, thus potentially having larger space complexity vs. iteration.
 - `Recursion enables cleaner, more readable code` — Despite requiring more space, using recursion can allow your code to be a lot more readable vs. iteration.
 
-
 ## The Two Phases of Recursion
 
-Note, that the two phases that we are going to look at is not the two cases of recursion that we are familiar with:
 
-- **the base case**
-- **the recursive case**
 
 Recursion is a function that repeatedly calls itself in smaller forms with the idea that a complex problem can be solved more easily by solving a smaller version of the same problem.
 
-**What recursion is doing is repeated calling a smaller and smaller version of itself, until you have the smallest possible case that is so small that you can simply solve it immediately → this smallest case is the base case. Then you use the answer to this base case to answer the next smallest problem, and then the next, and then the next, and so on, until you are back to the original problem that you began with.**
+What recursion is doing is repeated calling a smaller and smaller version of itself, until you have the smallest possible case that is so small that you can simply solve it immediately **→ this smallest case is the base case**. Then you use the answer to this base case to answer the next smallest problem, and then the next, and then the next, and so on, until you are back to the original problem that you began with.
 
 Did you notice the two phases of recursion?
 
@@ -66,7 +93,7 @@ For iteration, this is simple because the loop goes just one way → _you simply
 
 
 <div align="center">
-<img src="img/recursion.png" alt="rec" width="700px">
+<img src="img/recursion.png" alt="rec" width="600px">
 </div>
 
 For recursion, I have denoted `“op”` with a question mark. This is because in recursion, we have two phases and _a recursive call’s operation can be performed either in the calling phase_ or in the _returning phase_, depending on how the recursion function is designed.
@@ -99,12 +126,10 @@ What you can notice in this inception analogy is that *how the inception is desi
 
 ## Recursion in Code
 
-Now, let’s look at how recursion actually works in code.
-The examples I will be using are in JavaScript, but the language shouldn’t really matter in understanding how recursion works.
+
 
 ### Iteration
 
-First, let’s consider the following iteration function:
 
 
 
@@ -134,7 +159,6 @@ def recursion(n):
         print(n,end=" ")
         recursion(n - 1)
 
-
 recursion(6)
 ```
 
@@ -151,7 +175,7 @@ When `recursion(0)` is called, `n = 0`, so the recursive call terminates without
 
 Notice how all the necessary operations were already performed when we have reached the base case recursive call of `recursion(0)`. All the operations are performed in the calling phase. As we return back from the base case in the returning phase, nothing else is actually done except simply terminating each recursive call.
 
-This is an example of tail recursion. *Tail recursion is a type of recursion in which the recursive call is the LAST operation of the recursive function*, as in the above example. **In tail recursion, all operations are performed in the calling phase and nothing is done in the returning phase except for simply terminating the calls.**
+This is an example of tail recursion. _**Tail recursion** is a type of recursion in which the recursive call is the LAST operation of the recursive function_, as in the above example. **In tail recursion, all operations are performed in the calling phase and nothing is done in the returning phase except for simply terminating the calls.**
 
 > Tail recursion is similar to iteration.
 
@@ -227,7 +251,7 @@ iteration(6)
 
 But, unlike tail recursion, it is more difficult to write head recursion in an iterative form, although it is possible.
 
-## A More Complex Recursion Example
+### A More Complex Recursion Example
 
 Now, let’s look at the following recursion function:
 
@@ -251,35 +275,149 @@ print(final)
 
 
 Here, we have a combination of operations performed in the calling phase and in returning phase.
-This recursion is definitely more complex, but using our understanding of the operations performed in the two phases of recursion, we can make sense of how this recursion would return the final result.
 
 > Here is a simple rule for when an operation in a recursive function is performed:
-1. Anything that comes before the recursive call is performed in the `calling phase`
-2. Anything that comes after the recursive call is performed in the `returning phase
+1. Anything that comes **before** the recursive call is performed in the `calling phase`
+2. Anything that comes after the recursive call is performed in the `returning phase`
 
-In the above example, `print(n)` is performed in the **calling phase**.`
+In the above example, `print(n)` is performed in the **calling phase**. The first part is basically the same as the tail recursion example we have seen before.
 
-The `+ n` and thus the `result = recursion(n — 1) + n` , and `return result` are all performed in the returning phase.
-The first part is basically the same as the tail recursion example we have seen before:
-
-`print(n)` is performed in the **calling phase**, so when we have reached the **base case** call of `recursion(0)`, our recursion function would have already printed: `6 5 4 3 2 1`.
-
-> Now, we have to look at the operations performed in the returning phase:
-
-
-- At `recursion(0)`, since `n = 0`, the base case operation that is outside the recursive block is performed: `return 0`. The return value for `recursion(0)` is `0`.
-- Now we are back to `recursion(1)`. Since we now have the return value from `recursion(1 — 1) = recursion(0)`, which is 0, we have:  `result = 0 + 1 = 1`. `return result = return 1`. The return value for `recursion(1)` is `1`.
-- Now we are back to `recursion(2)`. `result = 1 + 2 = 3`. `return result = return 3`. The return value for` recursion(2)` is `3`.
-- Now we are back to `recursion(3)`. `result = 3 + 3 = 6`. `return result = return 6`. The return value for `recursion(3)` is `6`.
-- ....
-- Now we are back to `recursion(6)`. `result = 15 + 6 = 21`. `return result = return 21`. The return value for `recursion(6)` is `21`.
+The `+ n` and thus the `result = recursion(n — 1) + n` , and `return result` are all performed in the **returning phase**.
 
 The final result of the above recursive function is thus:
 
 - **`6 5 4 3 2 1` (performed in the calling phase)**
 - **`21` (the final result of operations performed in the returning phase)**
 
-## 🌟🌟🌟Principle of Mathematical Induction (PMI) and Recursion 🚀🚀
+### Visualizing CallStack 🚀🚀🚀
+
+
+```python
+# obj = {
+# 	"fn": "factorial",
+# 	"calling":True,
+# 	"returns":3,
+# }
+callstack = ["fun(1)", "fun(322)", "fun(3)", "fun(4)", "fun(5)"]
+def printStack(callstack,returns=2): # means last function in callstack will return 2
+	callstackSize = len(callstack)
+	if (callstackSize == 0): return
+	maxLengthAmongListItem = max(len(i) for i in callstack)
+	# stackPrintHeight = stackSize//2
+	for i,el in reversed(list(enumerate(callstack))):
+		if (not returns and i == callstackSize - 1):
+			print("->",end="")
+			print(f"│{el.center(maxLengthAmongListItem)}│",end="")
+			print()
+		elif (returns and i is (callstackSize -1)):
+			print("  ",end="")
+			print(f"│{el.center(maxLengthAmongListItem)}│",end="")
+			print("⤸",end="")
+			print(returns,end="")
+			print()
+		elif(returns and i is (callstackSize - 2)):
+			print("->",end="")
+			print(f"│{el.center(maxLengthAmongListItem)}│",end="")
+			print()
+		else:
+			print("  ",end="")
+			print(f"│{el.center(maxLengthAmongListItem)}│")
+	print("  ", end="")
+	print(f"└{'─'*(maxLengthAmongListItem)}┘")
+
+
+printStack(callstack)
+
+# center justify: https://stackoverflow.com/questions/44781484/python-string-formatter-align-center
+
+```
+
+      │ fun(5) │⤸2
+    ->│ fun(4) │
+      │ fun(3) │
+      │fun(322)│
+      │ fun(1) │
+      └────────┘
+
+
+
+```python
+callstack = []
+def factorial(n,callstack):
+  callstack.append(f'f({n})')
+  printStack(callstack,returns=None)
+  if (n <= 1):
+    printStack(callstack,returns=1)
+    callstack.pop()
+    return 1;
+  else:
+    result = factorial(n - 1,callstack) * n;
+    printStack(callstack,returns=result)
+    callstack.pop()
+    printStack(callstack)
+    return result;
+final = factorial(5,callstack);
+print()
+print(final)
+
+```
+
+    ->│f(5)│
+      └────┘
+    ->│f(4)│
+      │f(5)│
+      └────┘
+    ->│f(3)│
+      │f(4)│
+      │f(5)│
+      └────┘
+    ->│f(2)│
+      │f(3)│
+      │f(4)│
+      │f(5)│
+      └────┘
+    ->│f(1)│
+      │f(2)│
+      │f(3)│
+      │f(4)│
+      │f(5)│
+      └────┘
+      │f(1)│⤸1
+    ->│f(2)│
+      │f(3)│
+      │f(4)│
+      │f(5)│
+      └────┘
+      │f(2)│⤸2
+    ->│f(3)│
+      │f(4)│
+      │f(5)│
+      └────┘
+      │f(3)│⤸2
+    ->│f(4)│
+      │f(5)│
+      └────┘
+      │f(3)│⤸6
+    ->│f(4)│
+      │f(5)│
+      └────┘
+      │f(4)│⤸2
+    ->│f(5)│
+      └────┘
+      │f(4)│⤸24
+    ->│f(5)│
+      └────┘
+      │f(5)│⤸2
+      └────┘
+      │f(5)│⤸120
+      └────┘
+
+    120
+
+
+## Principle of Mathematical Induction (PMI) and Recursion
+
+
 
 Mathematical Induction is a technique to prove mathematical properties or formulations that are held for every natural numbers (0  and positive integer) or every whole number (positive integer)
 
@@ -381,7 +519,6 @@ $ -->
 
 $ -->
 
-for `f(k+1)`:
 
 <div align="center" >
 <img style="transform: translateY(0.1em); " src="..\svg\I7Nixbka61.svg">
