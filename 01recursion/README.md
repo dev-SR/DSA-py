@@ -2,7 +2,7 @@
 
 - [Recursion](#recursion)
   - [Intro](#intro)
-  - [Parts Of A Recursive Algorithm:](#parts-of-a-recursive-algorithm)
+  - [Parts Of A Recursive Algorithm](#parts-of-a-recursive-algorithm)
   - [Recursion vs. Iteration](#recursion-vs-iteration)
   - [The Two Phases of Recursion](#the-two-phases-of-recursion)
   - [Recursion is like Inception](#recursion-is-like-inception)
@@ -12,12 +12,11 @@
     - [Head Recursion](#head-recursion)
     - [A More Complex Recursion Example](#a-more-complex-recursion-example)
     - [🚀🚀🚀 Visualizing CallStack](#-visualizing-callstack)
-      - [Simple Example:](#simple-example)
-      - [🌟🌟🌟More Complex Example:](#more-complex-example)
+      - [Simple Example](#simple-example)
+      - [🌟🌟🌟More Complex Example](#more-complex-example)
   - [Principle of Mathematical Induction (PMI) and Recursion](#principle-of-mathematical-induction-pmi-and-recursion)
-    - [Steps for solving using PMI:](#steps-for-solving-using-pmi)
+    - [Steps for solving using PMI](#steps-for-solving-using-pmi)
   - [Changing Python Recursion Limit](#changing-python-recursion-limit)
-
 
 ```python
 """
@@ -44,19 +43,13 @@ fact(n - 1) = (n - 1) * fact(n - 2)
 - [https://medium.com/analytics-vidhya/understanding-recursion-in-python-f4a8cacce478](https://medium.com/analytics-vidhya/understanding-recursion-in-python-f4a8cacce478)
 - [https://realpython.com/python-thinking-recursively/](https://realpython.com/python-thinking-recursively/)
 
-
-
-## Parts Of A Recursive Algorithm:
-
-
+## Parts Of A Recursive Algorithm
 
 1. `Base Case`:It is that step where we have to stop recursion and whose value we know beforehand.Therefore while writing any recursive algorithm the first step is to figure out its base case.For example:While finding the factorial of a number, the base case is `fact(1)=1` since(`1! = 1`).
 
 2. `Recursive Call`:Here we keep on dividing the problems into subproblems until we reach the base case.Once we reach the base case we start combining the solution of all the subproblems to get to the solution of the main problem.For example : while computing the factorial of a number the recursive call is `fact(n)=n*fact(n-1)`
 
 ## Recursion vs. Iteration
-
-
 
 Let’s recap what we already know first. What is recursion?
 
@@ -70,8 +63,6 @@ Let’s look at two of the most prominent differences between recursion and iter
 - `Recursion enables cleaner, more readable code` — Despite requiring more space, using recursion can allow your code to be a lot more readable vs. iteration.
 
 ## The Two Phases of Recursion
-
-
 
 Recursion is a function that repeatedly calls itself in smaller forms with the idea that a complex problem can be solved more easily by solving a smaller version of the same problem.
 
@@ -92,7 +83,6 @@ The second phase of coming back from the base case to the original recursive cal
 The reason recursion is difficult to fully grasp at first, is that the loop of recursion has two phases, and this makes it difficult to see the full combining effect of each recursive call’s results into the final result.
 
 For iteration, this is simple because the loop goes just one way → _you simply do the same thing in every iteration, period_.
-
 
 <div align="center">
 <img src="img/recursion.png" alt="rec" width="600px">
@@ -118,28 +108,23 @@ How the final result of the recursion is achieved depends on how the operations 
 
 **There can be two ways to achieve your goals through inception:**
 
-- ***You can perform the necessary operations for each dream as you go in to the innermost dream***. When you have reached the innermost dream, you have *already done all of the necessary operations for each dream*. All you need to do now is to simply awake from each dream like bam bam bam until you are back out into reality. **Notice the order of goals achieved: the goal for the outermost dream is achieved first and the innermost dream last.**
+- ***You can perform the necessary operations for each dream as you go in to the innermost dream***. When you have reached the innermost dream, you have _already done all of the necessary operations for each dream_. All you need to do now is to simply awake from each dream like bam bam bam until you are back out into reality. **Notice the order of goals achieved: the goal for the outermost dream is achieved first and the innermost dream last.**
 
 - ***Or, you can first go into the innermost dream by entering through all the dreams, and then perform necessary operations as you awake from the dreams***. After achieving your goal for the innermost dream, you awake from that dream. Inside the next dream, you again perform your necessary operations and achieve your goal for that dream. You will continue these operations for each dream until you are awake from the last dream that you began with, and back out into reality. **Notice the order of goals achieved: the goal for the innermost dream is achieved first and the outermost dream last.**
 
 - You can also combine these two ways. You can perform some operations on your way into inner dreams and perform some others as you come out of the dreams. For example, you can set up some bombs in a dream on your way into the innermost dream, and then as you awake from the dreams and reach this dream again on your way out to reality, you can trigger the bomb to explode.
 
-What you can notice in this inception analogy is that *how the inception is designed (or how the recursion is designed) affects how your goal is achieved*. To put it another way, your inception or recursion function should be designed in a specific way, including the timing of operations, to achieve your intended goals.
+What you can notice in this inception analogy is that _how the inception is designed (or how the recursion is designed) affects how your goal is achieved_. To put it another way, your inception or recursion function should be designed in a specific way, including the timing of operations, to achieve your intended goals.
 
 ## Recursion in Code
 
-
-
 ### Iteration
-
-
-
 
 ```python
 def itr(n):
-	while n > 0:
-		print(n,end=" ")
-		n-=1
+ while n > 0:
+  print(n,end=" ")
+  n-=1
 
 itr(5)
 ```
@@ -154,7 +139,6 @@ itr(5)
 
 This same result can be implemented using recursion as follows:
 
-
 ```python
 def recursion(n):
     if (n > 0):
@@ -167,7 +151,6 @@ recursion(6)
     6 5 4 3 2 1
 
 The first recursion call is made with `recursion(6)`. As long as `n > 0`, it will print `n` and then call the next recursive call. `recursion(6)` prints `6` and then calls `recursion(5)`. This call will print `5` and then call `recursion(4)`. This process will continue until `recursion(0)` is called.
-
 
 When `recursion(0)` is called, `n = 0`, so the recursive call terminates without performing anything. Since `recursion(0)` has terminated, we are now back at `recursion(1)` call, which have already performed its operation (printing `1`) before calling `recursion(0)`. Since both operations (`print(1)` & `recursion(0)`) of `recursion(1)` are now finished, `recursion(1)` terminates and we are now back at `recursion(2)` call. This continues until we return back to `recursion(6)`, after which our recursion is done.
 
@@ -191,7 +174,6 @@ This is an example of tail recursion. _**Tail recursion** is a type of recursion
 
 Now, let’s take the above example and make it a head recursion instead, in which all operations are performed in the returning phase:
 
-
 ```python
 def recursion(n):
     if (n > 0):
@@ -214,14 +196,13 @@ Since `n` is now equal to `0`, **base case** is reached and `recursion(0)` termi
 <img src="img/recursion_4.png" alt="rec" width="400px">
 </div>
 
-This is a head recursion. *Head recursion is a type of recursion in which the recursive call is the FIRST operation of the recursive function*. **In a head recursion, all operations are performed in the returning phase.**
+This is a head recursion. _Head recursion is a type of recursion in which the recursive call is the FIRST operation of the recursive function_. **In a head recursion, all operations are performed in the returning phase.**
 
 > Unlike tail recursions, head recursions cannot be easily converted to iteration.
 
 If we were to write this head recursion in iterative form, we need to write it in such a way that the result will be 1 2 3 4 5 6.
 
 If we write the above head recursion code in exactly the same order in iterative form, we would have the following:
-
 
 ```python
 def iteration(n):
@@ -236,13 +217,12 @@ iteration(6);
 
 This is not what we were trying to get. To get 1 2 3 4 5 6, we have to find a different way to write the iteration function:
 
-
 ```python
 def iteration(n):
-	i=1
-	while (i<=n):
-		print(i, end=" ")
-		i += 1
+ i=1
+ while (i<=n):
+  print(i, end=" ")
+  i += 1
 
 
 iteration(6)
@@ -256,7 +236,6 @@ But, unlike tail recursion, it is more difficult to write head recursion in an i
 ### A More Complex Recursion Example
 
 Now, let’s look at the following recursion function:
-
 
 ```python
 def recursion(n):
@@ -275,10 +254,10 @@ print(final)
     6 5 4 3 2 1
     21
 
-
 Here, we have a combination of operations performed in the calling phase and in returning phase.
 
 > Here is a simple rule for when an operation in a recursive function is performed:
+
 1. Anything that comes **before** the recursive call is performed in the `calling phase`
 2. Anything that comes after the recursive call is performed in the `returning phase`
 
@@ -293,8 +272,7 @@ The final result of the above recursive function is thus:
 
 ### 🚀🚀🚀 Visualizing CallStack
 
-#### Simple Example:
-
+#### Simple Example
 
 ```python
 callstack = []
@@ -338,9 +316,7 @@ print(final)
     ['factorial(5)']
     120
 
-
-#### 🌟🌟🌟More Complex Example:
-
+#### 🌟🌟🌟More Complex Example
 
 ```python
 def strike(text):
@@ -362,129 +338,123 @@ print(len("helloo"))
     12
     6
 
-
-
 ```python
 callstack = []
 
 def buildFunctionDescription(id,f_name,is_calling=True,returns=None,is_popped=False,value="x"):
-	item = {
-		'id':id,
-		"function": f_name,
-		"returns": returns,
-		"isCalling": is_calling,
-		"isPopped": is_popped,
-		"value": value
-	}
-	return item
+ item = {
+  'id':id,
+  "function": f_name,
+  "returns": returns,
+  "isCalling": is_calling,
+  "isPopped": is_popped,
+  "value": value
+ }
+ return item
 
 def popFromCallStack(id,callstack):
-	return callstack.filter(lambda i: i['id'] != id)
+ return callstack.filter(lambda i: i['id'] != id)
 
 
 def popFromCallStackStrike(pop_id, callstack, returns, caller_id=None,current_value_of_caller=None):
-	# find item to be popped/strikethrough
-	item = [el for el in callstack if el['id'] == pop_id][0]
-	item['function'] = strike(item['function'])
-	item['isPopped'] = True
-	item['returns'] = returns
-	item['isCalling'] = False
-	# replace item in callstack where id == id
-	for i in callstack:
-		if i['id'] == pop_id:
-			i = item
-	# sort by id
-	callstack = sorted(callstack, key=lambda i: i['id'], reverse=False)
-	# find item to be calling
+ # find item to be popped/strikethrough
+ item = [el for el in callstack if el['id'] == pop_id][0]
+ item['function'] = strike(item['function'])
+ item['isPopped'] = True
+ item['returns'] = returns
+ item['isCalling'] = False
+ # replace item in callstack where id == id
+ for i in callstack:
+  if i['id'] == pop_id:
+   i = item
+ # sort by id
+ callstack = sorted(callstack, key=lambda i: i['id'], reverse=False)
+ # find item to be calling
 
-	if(caller_id):
-		item = [el for el in callstack if el['id'] == caller_id][0]
-		item['isCalling'] = True
-		item['value'] = current_value_of_caller
+ if(caller_id):
+  item = [el for el in callstack if el['id'] == caller_id][0]
+  item['isCalling'] = True
+  item['value'] = current_value_of_caller
 
-	return callstack
+ return callstack
 
 def buildCallStack(n):
-	callstack = []
-	for i in range(n):
-		item = buildFunctionDescription(id=i,f_name=f"fun({i})")
-		callstack.append(item)
-	return callstack
+ callstack = []
+ for i in range(n):
+  item = buildFunctionDescription(id=i,f_name=f"fun({i})")
+  callstack.append(item)
+ return callstack
 
 
 def StackFormation(callstack, newItem):
-	# make isCalling False for all items
-	for i in callstack:
-		i['isCalling'] = False
-	callstack.append(newItem)
-	callstack = sorted(callstack, key=lambda i: i['id'], reverse=False)
-	return callstack
+ # make isCalling False for all items
+ for i in callstack:
+  i['isCalling'] = False
+ callstack.append(newItem)
+ callstack = sorted(callstack, key=lambda i: i['id'], reverse=False)
+ return callstack
 
 
 
 callstack = buildCallStack(5)
 callstack = popFromCallStackStrike(
-	pop_id=0, callstack=callstack, returns=1, caller_id=1, current_value_of_caller=f"1+1+1")
+ pop_id=0, callstack=callstack, returns=1, caller_id=1, current_value_of_caller=f"1+1+1")
 
 print(callstack)
 ```
 
     [{'id': 0, 'function': 'f̶u̶n̶(̶0̶)̶', 'returns': 1, 'isCalling': False, 'isPopped': True, 'value': 'x'}, {'id': 1, 'function': 'fun(1)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': '1+1+1'}, {'id': 2, 'function': 'fun(2)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': 'x'}, {'id': 3, 'function': 'fun(3)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': 'x'}, {'id': 4, 'function': 'fun(4)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': 'x'}]
 
-
-
 ```python
 def printStack(callstack):
-	callstackSize = len(callstack)
-	# for el in callstack:
-	# 	fn = el['function']
-	# 	full_fn = f"{el['function']} ->{el['value']}"
-	# 	print(full_fn,len(full_fn))
-	# 	print(fn,len(fn))
+ callstackSize = len(callstack)
+ # for el in callstack:
+ #  fn = el['function']
+ #  full_fn = f"{el['function']} ->{el['value']}"
+ #  print(full_fn,len(full_fn))
+ #  print(fn,len(fn))
 
-	if (callstackSize == 0): return # handle empty stack
-	elif (callstackSize == 1):	# handle one item remaining
-		maxLengthAmongListItem = max(
-			len(f"{el['function']} ->{el['value']}") for el in callstack)
-	else:  # handle more than one item remaining
-		maxLengthAmongListItem = max(len(f"{el['function']} ->{el['value']}") for el in callstack if el['isPopped'] == False) # only considers max length of non-popped items
+ if (callstackSize == 0): return # handle empty stack
+ elif (callstackSize == 1): # handle one item remaining
+  maxLengthAmongListItem = max(
+   len(f"{el['function']} ->{el['value']}") for el in callstack)
+ else:  # handle more than one item remaining
+  maxLengthAmongListItem = max(len(f"{el['function']} ->{el['value']}") for el in callstack if el['isPopped'] == False) # only considers max length of non-popped items
 
-	for el in callstack:
-		if el['isPopped'] == True:
-			LWS = " "*2
-			toPrinted = f"{el['function']}"
-			requiredLength = maxLengthAmongListItem - (len(toPrinted)//2)
-			RWS = " "*(requiredLength+2)
-			toPrinted = f"{LWS}{el['function']}{RWS}"
-		else:
-			LWS = " "*2
-			toPrinted = f"{el['function']} ->{el['value']}"
-			requiredLength = maxLengthAmongListItem - len(toPrinted)
-			RWS = " "*(requiredLength+2)
-			toPrinted = f"{LWS}{el['function']} ->{el['value']}{RWS}"
+ for el in callstack:
+  if el['isPopped'] == True:
+   LWS = " "*2 # left white space
+   toPrinted = f"{el['function']}"
+   requiredLength = maxLengthAmongListItem - (len(toPrinted)//2) # handle strikethrough text
+   RWS = " "*(requiredLength+2) # right white space
+   toPrinted = f"{LWS}{el['function']}{RWS}"
+  else:
+   LWS = " "*2
+   toPrinted = f"{el['function']} ->{el['value']}"
+   requiredLength = maxLengthAmongListItem - len(toPrinted)
+   RWS = " "*(requiredLength+2)
+   toPrinted = f"{LWS}{el['function']} ->{el['value']}{RWS}"
 
-		printStack = f"│{toPrinted}│"
+  printStack = f"│{toPrinted}│"
 
-		if (el['isCalling']):
-			print("->",end="")
-			print(printStack, end="")
-			print()
-		elif (el['returns']):
-			print("  ",end="")
-			print(printStack, end="")
-			print("⤸",end="")
-			print(el['returns'],end="")
-			print()
-		else:
-			print("  ",end="")
-			print(printStack)
-	print("  ", end="")
-	print(f"└{'─'*(maxLengthAmongListItem+2+2)}┘")
+  if (el['isCalling']):
+   print("->",end="")
+   print(printStack, end="")
+   print()
+  elif (el['returns']):
+   print("  ",end="")
+   print(printStack, end="")
+   print("⤸",end="")
+   print(el['returns'],end="")
+   print()
+  else:
+   print("  ",end="")
+   print(printStack)
+ print("  ", end="")
+ print(f"└{'─'*(maxLengthAmongListItem+2+2)}┘")
 
 
 printStack(callstack)
-
-# center justify: https://stackoverflow.com/questions/44781484/python-string-formatter-align-center
 
 ```
 
@@ -494,8 +464,6 @@ printStack(callstack)
     ->│  fun(3) ->x      │
     ->│  fun(4) ->x      │
       └──────────────────┘
-
-
 
 ```python
 callstack = []
@@ -580,10 +548,7 @@ print(final)
       └───────────────────────┘
     120
 
-
 ## Principle of Mathematical Induction (PMI) and Recursion
-
-
 
 Mathematical Induction is a technique to prove mathematical properties or formulations that are held for every natural numbers (0  and positive integer) or every whole number (positive integer)
 
@@ -621,7 +586,6 @@ $ -->
 
 Third, using the assumption in the previous step, show the equation is true for adding up from `0 to n`:
 
-
 <!-- $
 \color{Green} \Large \color{Green} \Large 0 + 1 + 2 + .... + n - 1 + n = \frac{n (n - 1)}{2} + n = \frac{n (n - 1) + 2n}{2} = \frac{n^{2} - n + 2n}{2} = \frac{n(n+1)}{2}
 
@@ -636,12 +600,11 @@ This proves the equation works for every natural number because:
 2. if the equation is true for one natural number then it is true for the next consecutive number;
 3. True for 0 so true for 1, then true for 2, and true for 3 and so on… (this is the point where my mind was blown away!)
 
-### Steps for solving using PMI:
+### Steps for solving using PMI
 
 1. Task 1: `f(0)`, `f(1)` is true
 2. Task 2: Assume `f(k)` is True.
 3. Task 3: Prove `f(k+1)` is True.
-
 
 **- Prove that Prove the sum of first n integers is `n(n+1)/2`.**
 
@@ -672,19 +635,16 @@ $ -->
 
   2. Task 2: Assume `f(k)` is True.
 
-
 <div align="center" >
 <img style="" src="..\svg\zRIEchlWSz.svg">
 </div>
 
   3. Task 3: Prove `f(k+1)` is True.
 
-
 <!-- $
 \Large \color{Green} \sum_{}^{}k +1  = \frac{(k+1)(k+1+1)}{2} = \frac{(k+1)(k+2)}{2}
 
 $ -->
-
 
 <div align="center" >
 <img style="transform: translateY(0.1em); " src="..\svg\I7Nixbka61.svg">
@@ -705,6 +665,7 @@ so,
 </div>
 
 I found mathematical induction and a recursive algorithm very similar in three points:
+
 1. The basic case should be established; in the first example, n=0 case and in the second example, m = 0
 2. Substitutions are used to go through the cases; in the first example, the last number in the series being used in the equation and in the second example, m and n being updated until m becomes 0 or less than 0
 3. There is no set end: mathematical induction is used for infinitely many numbers of sequences and a recursive algorithm is used for an iteration without a set range of indices.
