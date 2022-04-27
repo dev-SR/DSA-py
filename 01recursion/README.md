@@ -11,12 +11,13 @@
     - [Tail Recursion](#tail-recursion)
     - [Head Recursion](#head-recursion)
     - [A More Complex Recursion Example](#a-more-complex-recursion-example)
-    - [Visualizing CallStack 🚀🚀🚀](#visualizing-callstack-)
+    - [🚀🚀🚀 Visualizing CallStack](#-visualizing-callstack)
       - [Simple Example:](#simple-example)
-      - [More Complex Example:](#more-complex-example)
+      - [🌟🌟🌟More Complex Example:](#more-complex-example)
   - [Principle of Mathematical Induction (PMI) and Recursion](#principle-of-mathematical-induction-pmi-and-recursion)
     - [Steps for solving using PMI:](#steps-for-solving-using-pmi)
   - [Changing Python Recursion Limit](#changing-python-recursion-limit)
+
 
 ```python
 """
@@ -290,7 +291,7 @@ The final result of the above recursive function is thus:
 - **`6 5 4 3 2 1` (performed in the calling phase)**
 - **`21` (the final result of operations performed in the returning phase)**
 
-### Visualizing CallStack 🚀🚀🚀
+### 🚀🚀🚀 Visualizing CallStack
 
 #### Simple Example:
 
@@ -338,7 +339,7 @@ print(final)
     120
 
 
-#### More Complex Example:
+#### 🌟🌟🌟More Complex Example:
 
 
 ```python
@@ -351,7 +352,7 @@ def strike(text):
 
 
 print(strike("helloo"))
-print(len(strike("helloo")))
+print(len(strike("helloo"))) ## V.V.I.
 
 print(len("helloo"))
 
@@ -366,13 +367,14 @@ print(len("helloo"))
 ```python
 callstack = []
 
-def buildFunctionDescription(id,f_name,is_calling=True,returns=None,is_popped=False):
+def buildFunctionDescription(id,f_name,is_calling=True,returns=None,is_popped=False,value="x"):
 	item = {
 		'id':id,
 		"function": f_name,
 		"returns": returns,
 		"isCalling": is_calling,
 		"isPopped": is_popped,
+		"value": value
 	}
 	return item
 
@@ -380,7 +382,7 @@ def popFromCallStack(id,callstack):
 	return callstack.filter(lambda i: i['id'] != id)
 
 
-def popFromCallStackStrike(pop_id, callstack, returns, caller_id=None):
+def popFromCallStackStrike(pop_id, callstack, returns, caller_id=None,current_value_of_caller=None):
 	# find item to be popped/strikethrough
 	item = [el for el in callstack if el['id'] == pop_id][0]
 	item['function'] = strike(item['function'])
@@ -398,6 +400,7 @@ def popFromCallStackStrike(pop_id, callstack, returns, caller_id=None):
 	if(caller_id):
 		item = [el for el in callstack if el['id'] == caller_id][0]
 		item['isCalling'] = True
+		item['value'] = current_value_of_caller
 
 	return callstack
 
@@ -420,36 +423,51 @@ def StackFormation(callstack, newItem):
 
 
 callstack = buildCallStack(5)
-callstack = popFromCallStackStrike(pop_id=0,callstack=callstack,returns=1,caller_id=None)
+callstack = popFromCallStackStrike(
+	pop_id=0, callstack=callstack, returns=1, caller_id=1, current_value_of_caller=f"1+1+1")
 
 print(callstack)
 ```
 
-    [{'id': 0, 'function': 'f̶u̶n̶(̶0̶)̶', 'returns': 1, 'isCalling': False, 'isPopped': True}, {'id': 1, 'function': 'fun(1)', 'returns': None, 'isCalling': True, 'isPopped': False}, {'id': 2, 'function': 'fun(2)', 'returns': None, 'isCalling': True, 'isPopped': False}, {'id': 3, 'function': 'fun(3)', 'returns': None, 'isCalling': True, 'isPopped': False}, {'id': 4, 'function': 'fun(4)', 'returns': None, 'isCalling': True, 'isPopped': False}]
+    [{'id': 0, 'function': 'f̶u̶n̶(̶0̶)̶', 'returns': 1, 'isCalling': False, 'isPopped': True, 'value': 'x'}, {'id': 1, 'function': 'fun(1)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': '1+1+1'}, {'id': 2, 'function': 'fun(2)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': 'x'}, {'id': 3, 'function': 'fun(3)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': 'x'}, {'id': 4, 'function': 'fun(4)', 'returns': None, 'isCalling': True, 'isPopped': False, 'value': 'x'}]
 
 
 
 ```python
 def printStack(callstack):
 	callstackSize = len(callstack)
+	# for el in callstack:
+	# 	fn = el['function']
+	# 	full_fn = f"{el['function']} ->{el['value']}"
+	# 	print(full_fn,len(full_fn))
+	# 	print(fn,len(fn))
+
 	if (callstackSize == 0): return # handle empty stack
-	# handle one item remaining
-	elif (callstackSize == 1 and callstack[0]['returns'] != None):
-		maxLengthAmongListItem = max(len(el['function'])
-		                             for el in callstack)
-		maxLengthAmongListItem //= 2 # strickthrough text is half of actual text
-	else:
-		maxLengthAmongListItem = max(len(el['function']) for el in callstack if el['isPopped'] == False)
+	elif (callstackSize == 1):	# handle one item remaining
+		maxLengthAmongListItem = max(len(el['function']) for el in callstack)
+	else:  # handle more than one item remaining
+		maxLengthAmongListItem = max(len(f"{el['function']} ->{el['value']}") for el in callstack if el['isPopped'] == False) # only considers max length of non-popped items
 
-
-	WS= " "*2
 	for el in callstack:
-		# printStack = f"│{WS}{el['function'].center(maxLengthAmongListItem)}{WS}│"
-		printStack = f"│{WS}{el['function']}{WS}│"
+		if el['isPopped'] == True:
+			LWS = " "*2
+			toPrinted = f"{el['function']}"
+			requiredLength = maxLengthAmongListItem - (len(toPrinted)//2)
+			RWS = " "*requiredLength
+			toPrinted = f"{LWS}{el['function']}{RWS}"
+		else:
+			LWS = " "*2
+			toPrinted = f"{el['function']} ->{el['value']}"
+			requiredLength = maxLengthAmongListItem - len(toPrinted)
+			RWS = " "*requiredLength
+			toPrinted = f"{LWS}{el['function']} ->{el['value']}{RWS}"
+
+		printStack = f"│{toPrinted}│"
 
 		if (el['isCalling']):
 			print("->",end="")
 			print(printStack, end="")
+
 			print()
 		elif (el['returns']):
 			print("  ",end="")
@@ -461,8 +479,7 @@ def printStack(callstack):
 			print("  ",end="")
 			print(printStack)
 	print("  ", end="")
-	# print(f"└{'─'*(maxLengthAmongListItem+4)}┘")
-	print(f"└{'─'*(maxLengthAmongListItem+4)}┘")
+	print(f"└{'─'*(maxLengthAmongListItem+2)}┘")
 
 
 printStack(callstack)
@@ -471,12 +488,12 @@ printStack(callstack)
 
 ```
 
-      │  f̶u̶n̶(̶0̶)̶  │⤸1
-    ->│  fun(1)  │
-    ->│  fun(2)  │
-    ->│  fun(3)  │
-    ->│  fun(4)  │
-      └──────────┘
+      │  f̶u̶n̶(̶0̶)̶        │⤸1
+    ->│  fun(1) ->1+1+1│
+    ->│  fun(2) ->x    │
+    ->│  fun(3) ->x    │
+    ->│  fun(4) ->x    │
+      └────────────────┘
 
 
 
@@ -495,7 +512,7 @@ def factorial(n, callstack):
     print("Returning Phase:")
     fact = returns * n;
     # print(callstack)
-    callstack = popFromCallStackStrike(n-1, callstack, returns=returns,caller_id=n)
+    callstack = popFromCallStackStrike(n-1, callstack, returns=returns,caller_id=n,current_value_of_caller=f"{returns}*{n}")
     printStack(callstack)
 
     return fact;
@@ -511,56 +528,56 @@ print(final)
 ```
 
     Calling Phase:
-    ->│  fun(5)  │
-      └──────────┘
+    ->│  fun(5) ->x│
+      └────────┘
     Calling Phase:
-    ->│  fun(4)  │
-      │  fun(5)  │
-      └──────────┘
+    ->│  fun(4) ->x│
+      │  fun(5) ->x│
+      └────────────┘
     Calling Phase:
-    ->│  fun(3)  │
-      │  fun(4)  │
-      │  fun(5)  │
-      └──────────┘
+    ->│  fun(3) ->x│
+      │  fun(4) ->x│
+      │  fun(5) ->x│
+      └────────────┘
     Calling Phase:
-    ->│  fun(2)  │
-      │  fun(3)  │
-      │  fun(4)  │
-      │  fun(5)  │
-      └──────────┘
+    ->│  fun(2) ->x│
+      │  fun(3) ->x│
+      │  fun(4) ->x│
+      │  fun(5) ->x│
+      └────────────┘
     Calling Phase:
-    ->│  fun(1)  │
-      │  fun(2)  │
-      │  fun(3)  │
-      │  fun(4)  │
-      │  fun(5)  │
-      └──────────┘
+    ->│  fun(1) ->x│
+      │  fun(2) ->x│
+      │  fun(3) ->x│
+      │  fun(4) ->x│
+      │  fun(5) ->x│
+      └────────────┘
     Returning Phase:
-      │  f̶u̶n̶(̶1̶)̶  │⤸1
-    ->│  fun(2)  │
-      │  fun(3)  │
-      │  fun(4)  │
-      │  fun(5)  │
-      └──────────┘
+      │  f̶u̶n̶(̶1̶)̶      │⤸1
+    ->│  fun(2) ->1*2│
+      │  fun(3) ->x  │
+      │  fun(4) ->x  │
+      │  fun(5) ->x  │
+      └──────────────┘
     Returning Phase:
-      │  f̶u̶n̶(̶2̶)̶  │⤸2
-    ->│  fun(3)  │
-      │  fun(4)  │
-      │  fun(5)  │
-      └──────────┘
+      │  f̶u̶n̶(̶2̶)̶      │⤸2
+    ->│  fun(3) ->2*3│
+      │  fun(4) ->x  │
+      │  fun(5) ->x  │
+      └──────────────┘
     Returning Phase:
-      │  f̶u̶n̶(̶3̶)̶  │⤸6
-    ->│  fun(4)  │
-      │  fun(5)  │
-      └──────────┘
+      │  f̶u̶n̶(̶3̶)̶      │⤸6
+    ->│  fun(4) ->6*4│
+      │  fun(5) ->x  │
+      └──────────────┘
     Returning Phase:
-      │  f̶u̶n̶(̶4̶)̶  │⤸24
-    ->│  fun(5)  │
-      └──────────┘
+      │  f̶u̶n̶(̶4̶)̶       │⤸24
+    ->│  fun(5) ->24*5│
+      └───────────────┘
 
     Final Returned:
-      │  f̶u̶n̶(̶5̶)̶  │⤸120
-      └──────────┘
+      │  f̶u̶n̶(̶5̶)̶      │⤸120
+      └──────────────┘
     120
 
 
