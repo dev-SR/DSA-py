@@ -444,7 +444,8 @@ def printStack(callstack):
 
 	if (callstackSize == 0): return # handle empty stack
 	elif (callstackSize == 1):	# handle one item remaining
-		maxLengthAmongListItem = max(len(el['function']) for el in callstack)
+		maxLengthAmongListItem = max(
+			len(f"{el['function']} ->{el['value']}") for el in callstack)
 	else:  # handle more than one item remaining
 		maxLengthAmongListItem = max(len(f"{el['function']} ->{el['value']}") for el in callstack if el['isPopped'] == False) # only considers max length of non-popped items
 
@@ -453,13 +454,13 @@ def printStack(callstack):
 			LWS = " "*2
 			toPrinted = f"{el['function']}"
 			requiredLength = maxLengthAmongListItem - (len(toPrinted)//2)
-			RWS = " "*requiredLength
+			RWS = " "*(requiredLength+2)
 			toPrinted = f"{LWS}{el['function']}{RWS}"
 		else:
 			LWS = " "*2
 			toPrinted = f"{el['function']} ->{el['value']}"
 			requiredLength = maxLengthAmongListItem - len(toPrinted)
-			RWS = " "*requiredLength
+			RWS = " "*(requiredLength+2)
 			toPrinted = f"{LWS}{el['function']} ->{el['value']}{RWS}"
 
 		printStack = f"│{toPrinted}│"
@@ -467,7 +468,6 @@ def printStack(callstack):
 		if (el['isCalling']):
 			print("->",end="")
 			print(printStack, end="")
-
 			print()
 		elif (el['returns']):
 			print("  ",end="")
@@ -479,7 +479,7 @@ def printStack(callstack):
 			print("  ",end="")
 			print(printStack)
 	print("  ", end="")
-	print(f"└{'─'*(maxLengthAmongListItem+2)}┘")
+	print(f"└{'─'*(maxLengthAmongListItem+2+2)}┘")
 
 
 printStack(callstack)
@@ -488,12 +488,12 @@ printStack(callstack)
 
 ```
 
-      │  f̶u̶n̶(̶0̶)̶        │⤸1
-    ->│  fun(1) ->1+1+1│
-    ->│  fun(2) ->x    │
-    ->│  fun(3) ->x    │
-    ->│  fun(4) ->x    │
-      └────────────────┘
+      │  f̶u̶n̶(̶0̶)̶          │⤸1
+    ->│  fun(1) ->1+1+1  │
+    ->│  fun(2) ->x      │
+    ->│  fun(3) ->x      │
+    ->│  fun(4) ->x      │
+      └──────────────────┘
 
 
 
@@ -528,56 +528,56 @@ print(final)
 ```
 
     Calling Phase:
-    ->│  fun(5) ->x│
-      └────────┘
+    ->│  fun(5) ->x  │
+      └──────────────┘
     Calling Phase:
-    ->│  fun(4) ->x│
-      │  fun(5) ->x│
-      └────────────┘
+    ->│  fun(4) ->x  │
+      │  fun(5) ->x  │
+      └──────────────┘
     Calling Phase:
-    ->│  fun(3) ->x│
-      │  fun(4) ->x│
-      │  fun(5) ->x│
-      └────────────┘
+    ->│  fun(3) ->x  │
+      │  fun(4) ->x  │
+      │  fun(5) ->x  │
+      └──────────────┘
     Calling Phase:
-    ->│  fun(2) ->x│
-      │  fun(3) ->x│
-      │  fun(4) ->x│
-      │  fun(5) ->x│
-      └────────────┘
+    ->│  fun(2) ->x  │
+      │  fun(3) ->x  │
+      │  fun(4) ->x  │
+      │  fun(5) ->x  │
+      └──────────────┘
     Calling Phase:
-    ->│  fun(1) ->x│
-      │  fun(2) ->x│
-      │  fun(3) ->x│
-      │  fun(4) ->x│
-      │  fun(5) ->x│
-      └────────────┘
-    Returning Phase:
-      │  f̶u̶n̶(̶1̶)̶      │⤸1
-    ->│  fun(2) ->1*2│
+    ->│  fun(1) ->x  │
+      │  fun(2) ->x  │
       │  fun(3) ->x  │
       │  fun(4) ->x  │
       │  fun(5) ->x  │
       └──────────────┘
     Returning Phase:
-      │  f̶u̶n̶(̶2̶)̶      │⤸2
-    ->│  fun(3) ->2*3│
-      │  fun(4) ->x  │
-      │  fun(5) ->x  │
-      └──────────────┘
+      │  f̶u̶n̶(̶1̶)̶        │⤸1
+    ->│  fun(2) ->1*2  │
+      │  fun(3) ->x    │
+      │  fun(4) ->x    │
+      │  fun(5) ->x    │
+      └────────────────┘
     Returning Phase:
-      │  f̶u̶n̶(̶3̶)̶      │⤸6
-    ->│  fun(4) ->6*4│
-      │  fun(5) ->x  │
-      └──────────────┘
+      │  f̶u̶n̶(̶2̶)̶        │⤸2
+    ->│  fun(3) ->2*3  │
+      │  fun(4) ->x    │
+      │  fun(5) ->x    │
+      └────────────────┘
     Returning Phase:
-      │  f̶u̶n̶(̶4̶)̶       │⤸24
-    ->│  fun(5) ->24*5│
-      └───────────────┘
+      │  f̶u̶n̶(̶3̶)̶        │⤸6
+    ->│  fun(4) ->6*4  │
+      │  fun(5) ->x    │
+      └────────────────┘
+    Returning Phase:
+      │  f̶u̶n̶(̶4̶)̶         │⤸24
+    ->│  fun(5) ->24*5  │
+      └─────────────────┘
 
     Final Returned:
-      │  f̶u̶n̶(̶5̶)̶      │⤸120
-      └──────────────┘
+      │  f̶u̶n̶(̶5̶)̶               │⤸120
+      └───────────────────────┘
     120
 
 
