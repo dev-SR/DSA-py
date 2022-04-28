@@ -82,10 +82,6 @@ print_tree(btn1)
     3
 
 
-<div align="center">
-<img src="img/print_tree_left.jpg" alt="print_tree_left.jpg" width="1000px">
-</div>
-
 
 ```python
 btn = BinaryTreeNode("A")
@@ -132,3 +128,11 @@ print_tree_details(btn)
     E:
     F:
 
+
+Here is a simple simulation of printing a binary tree.
+
+<div align="center">
+<img src="img/print_tree_left.jpg" alt="print_tree_left.jpg" width="1000px">
+</div>
+
+Left subtree is printed first, then the right subtree will be printed in the same manner.
